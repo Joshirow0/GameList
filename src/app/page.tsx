@@ -1,8 +1,9 @@
-import { getGames} from '@/services/api';
+import { Suspense } from 'react';
 import Search from '@/components/Search';
-import Pagination from '@/components/Pagination';
+import Skeleton from '@/components/Skeleton';
+import GameCatalog from '@/components/GameCatalog';
 
-export default async function Home( { searchParams, }: { searchParams: { q?: string; page?: string }; } ) {
+export default async function Home( { searchParams, }: { searchParams: Promise<{ q?: string; page?: string }> }) {
 
   /* await prop needed fue to next15 or further */
   const resolvedParams = await searchParams;
