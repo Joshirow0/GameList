@@ -17,7 +17,9 @@ export const getGames = async (page = 1, search = ''): Promise<GameResponse> => 
     url.searchParams.append('search', search);
   }
 
-  try {                                           // optimization: next cache (3600s = 1h)
+  try {
+    await new Promise(resolve => setTimeout(resolve, 3000));                       
+                                   // optimization: next cache (3600s = 1h)
     const response = await fetch(url.toString(), {next: { revalidate: 3600 } });
 
     // Validate response status
