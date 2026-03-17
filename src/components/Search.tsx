@@ -11,6 +11,13 @@ export default function Search() {
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
 
   useEffect(() => {
+
+    // If the search term is the same as the current URL query, do nothing (to avoid unnecessary pushes to the router that makes request to the API (usually cached, but still a request))
+    const currentUrlQuery = searchParams.get('q') || '';
+    if (searchTerm === currentUrlQuery) {
+      return;
+    }
+
     // delay the search action until the user stops typing
     const delayDebounceFn = setTimeout(() => {
       const current = new URLSearchParams(Array.from(searchParams.entries()));
