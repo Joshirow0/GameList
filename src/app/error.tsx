@@ -28,7 +28,7 @@ export default function Error({ error, reset, }: {
         {/* reset() function to retry loading */}
         <button
           onClick={() => reset()}
-          className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-6 rounded-lg transition-colors w-full"
+          className="bg-zinc-900 hover:bg-zinc-700 border border-white-500 text-white font-bold py-2 px-6 rounded-lg transition-colors w-full"
         >
           Intentar de nuevo
         </button>
