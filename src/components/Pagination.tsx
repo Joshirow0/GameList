@@ -13,6 +13,8 @@ export default function Pagination({ hasNext, hasPrev, currentPage }: Pagination
   const searchParams = useSearchParams();
 
   const handlePage = (newPage: number) => {
+    window.dispatchEvent(new Event('start-loading')); 
+
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set('page', newPage.toString());
     router.push(`/?${current.toString()}`);

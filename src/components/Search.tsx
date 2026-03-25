@@ -32,6 +32,8 @@ export default function Search() {
 
       // add the query to the URL
       const query = current.toString();
+
+      window.dispatchEvent(new Event('start-loading'));
       router.push(query ? `/?${query}` : '/');
     }, 500);
 

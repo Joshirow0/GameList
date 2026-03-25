@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import Search from '@/components/Search';
 import Skeleton from '@/components/Skeleton';
 import GameCatalog from '@/components/GameCatalog';
+import InstantTransition from '@/components/InstanTransition';
 
 export default async function Home( { searchParams, }: { searchParams: Promise<{ q?: string; page?: string }> }) {
 
@@ -23,9 +24,11 @@ export default async function Home( { searchParams, }: { searchParams: Promise<{
 
         <Search />
 
-        <Suspense key={suspenseKey} fallback={<Skeleton/>}>
-          <GameCatalog query={query} currentPage={currentPage}></GameCatalog>
-        </Suspense>
+        <InstantTransition serverQuery={query} serverPage={currentPage} fallback={<Skeleton />}>
+          <Suspense fallback={<Skeleton/>}>
+            <GameCatalog query={query} currentPage={currentPage}></GameCatalog>
+          </Suspense>
+        </InstantTransition>
 
       </div>
     </main>
