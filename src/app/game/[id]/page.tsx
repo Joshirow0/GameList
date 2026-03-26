@@ -1,6 +1,7 @@
 import { getGameDetails } from '@/services/api';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import FavoriteButton from '@/components/FavoriteButton';
 
 
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }) {
@@ -14,6 +15,14 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
     // If there's an error (like 404), we show the not found page
     notFound(); 
   }
+
+  // compact info for fav button
+  const compactGameData = {
+    id: game.id,
+    name: game.name,
+    background_image: game.background_image,
+    rating: game.rating,
+  };
 
   return (
     <main className="min-h-screen bg-zinc-950 pb-12">
@@ -97,6 +106,9 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
             )}
             
             {/* Fav button */}
+            <div className="pt-4 mt-4 border-t border-zinc-800">
+              <FavoriteButton game={compactGameData} />
+            </div>
           </div>
         </div>
       </div>
