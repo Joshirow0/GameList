@@ -1,5 +1,6 @@
 import { getGames } from '@/services/api';
 import Pagination from './Pagination';
+import Link from 'next/link';
 
 interface GameCatalogProps {
   query: string;
@@ -24,6 +25,7 @@ export default async function GameCatalog({ query, currentPage }: GameCatalogPro
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {games.map((game) => (
+          <Link href={`/game/${game.id}`} key={game.id}>
           <div key={game.id} className="bg-zinc-900 rounded-xl overflow-hidden shadow-lg border border-zinc-800 hover:border-purple-500 transition-colors">
             <div className="h-48 w-full bg-zinc-800">
               {game.background_image ? (
@@ -42,6 +44,7 @@ export default async function GameCatalog({ query, currentPage }: GameCatalogPro
               </div>
             </div>
           </div>
+          </Link>
         ))}
       </div>
       
