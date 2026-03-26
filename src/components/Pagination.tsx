@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/dist/client/link';
+import { useSearchParams } from 'next/navigation';
 
 interface PaginationProps {
   hasNext: boolean;
@@ -9,38 +10,56 @@ interface PaginationProps {
 }
 
 export default function Pagination({ hasNext, hasPrev, currentPage }: PaginationProps) {
-  const router = useRouter();
+  
   const searchParams = useSearchParams();
 
-  const handlePage = (newPage: number) => {
-    window.dispatchEvent(new Event('start-loading')); 
-
+  // page constructor
+  const getPageUrl = (newPage: number) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set('page', newPage.toString());
-    router.push(`/?${current.toString()}`);
+    return `?${current.toString()}`;
+  };
+
+  const fireLoadingFlare = () => {
+    window.dispatchEvent(new Event('start-loading'));
   };
 
   return (
     <div className="flex justify-center items-center gap-4 mt-12 mb-8">
-      <button
-        onClick={() => handlePage(currentPage - 1)}
-        disabled={!hasPrev}
-        className="px-6 py-2 bg-zinc-800 text-zinc-200 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-700 transition-colors"
-      >
-        Anterior
-      </button>
+
+      {/* Anterior Button */}
+      {hasPrev ? (
+        <Link 
+        href={getPageUrl(currentPage - 1)}
+        onClick={fireLoadingFlare}
+        className="px-6 py-2 w-32 text-center bg-zinc-800 text-zinc-200 rounded-md font-medium hover:bg-zinc-700 transition-colors"
+        >
+          Anterior
+        </Link>
+      ) : (
+        <span className="px-6 py-2 w-32 text-center bg-zinc-800/50 text-zinc-500 rounded-md font-medium cursor-not-allowed">
+          Anterior
+        </span>
+      )}
       
       <span className="text-zinc-400 font-medium">
         Página {currentPage}
       </span>
 
-      <button
-        onClick={() => handlePage(currentPage + 1)}
-        disabled={!hasNext}
-        className="px-6 py-2 bg-purple-600 text-white rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-500 transition-colors"
-      >
-        Siguiente
-      </button>
+      {hasNext ? (
+        <Link
+          href={getPageUrl(currentPage + 1)}
+          onClick={fireLoadingFlare}
+          className="px-6 py-2 w-32 text-center bg-purple-600 text-white rounded-md font-medium hover:bg-purple-500 transition-colors"
+        >
+          Siguiente
+        </Link>
+      ) : (
+        <span className="px-6 py-2 w-32 text-center bg-purple-600/50 text-white/50 rounded-md font-medium cursor-not-allowed">
+          Siguiente
+        </span>
+      )}
+
     </div>
   );
 }
