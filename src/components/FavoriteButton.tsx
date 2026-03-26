@@ -1,22 +1,16 @@
 "use client"; // Use nav features
 
+import { Game } from "@/types/game";
 import { useState, useEffect } from 'react';
 
-interface SavedGame {
-  id: number;
-  name: string;
-  background_image: string | null;
-  rating: number;
-}
-
-export default function FavoriteButton({ game }: { game: SavedGame }) {
+export default function FavoriteButton({ game }: { game: Game }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const savedFavorites = localStorage.getItem('catalogo_favoritos');
     if (savedFavorites) {
-      const favorites: SavedGame[] = JSON.parse(savedFavorites);
+      const favorites: Game[] = JSON.parse(savedFavorites);
       const exists = favorites.some((fav) => fav.id === game.id);
       setIsFavorite(exists);
     }
@@ -25,7 +19,7 @@ export default function FavoriteButton({ game }: { game: SavedGame }) {
 
   const toggleFavorite = () => {
     const savedFavorites = localStorage.getItem('catalogo_favoritos');
-    let favorites: SavedGame[] = savedFavorites ? JSON.parse(savedFavorites) : [];
+    let favorites: Game[] = savedFavorites ? JSON.parse(savedFavorites) : [];
 
     if (isFavorite) {
       favorites = favorites.filter((fav) => fav.id !== game.id);
