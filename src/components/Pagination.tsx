@@ -20,10 +20,6 @@ export default function Pagination({ hasNext, hasPrev, currentPage }: Pagination
     return `?${current.toString()}`;
   };
 
-  const fireLoadingFlare = () => {
-    window.dispatchEvent(new Event('start-loading'));
-  };
-
   return (
     <div className="flex justify-center items-center gap-4 mt-12 mb-8">
 
@@ -31,7 +27,6 @@ export default function Pagination({ hasNext, hasPrev, currentPage }: Pagination
       {hasPrev ? (
         <Link 
         href={getPageUrl(currentPage - 1)}
-        onClick={fireLoadingFlare}
         className="px-6 py-2 w-32 text-center bg-zinc-800 text-zinc-200 rounded-md font-medium hover:bg-zinc-700 transition-colors"
         >
           Anterior
@@ -49,7 +44,6 @@ export default function Pagination({ hasNext, hasPrev, currentPage }: Pagination
       {hasNext ? (
         <Link
           href={getPageUrl(currentPage + 1)}
-          onClick={fireLoadingFlare}
           className="px-6 py-2 w-32 text-center bg-purple-600 text-white rounded-md font-medium hover:bg-purple-500 transition-colors"
         >
           Siguiente
