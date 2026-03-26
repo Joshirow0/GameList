@@ -3,14 +3,16 @@
 import { Game } from "@/types/game";
 import { useState, useEffect } from 'react';
 
-export default function FavoriteButton({ game }: { game: Game }) {
+export type SavedGame = Pick<Game, 'id' | 'name' | 'background_image' | 'rating'>;
+
+export default function FavoriteButton({ game }: { game: SavedGame }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const savedFavorites = localStorage.getItem('catalogo_favoritos');
     if (savedFavorites) {
-      const favorites: Game[] = JSON.parse(savedFavorites);
+      const favorites: SavedGame[] = JSON.parse(savedFavorites);
       const exists = favorites.some((fav) => fav.id === game.id);
       setIsFavorite(exists);
     }
@@ -19,7 +21,7 @@ export default function FavoriteButton({ game }: { game: Game }) {
 
   const toggleFavorite = () => {
     const savedFavorites = localStorage.getItem('catalogo_favoritos');
-    let favorites: Game[] = savedFavorites ? JSON.parse(savedFavorites) : [];
+    let favorites: SavedGame[] = savedFavorites ? JSON.parse(savedFavorites) : [];
 
     if (isFavorite) {
       favorites = favorites.filter((fav) => fav.id !== game.id);

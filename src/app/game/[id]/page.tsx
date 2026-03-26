@@ -1,8 +1,7 @@
 import { getGameDetails } from '@/services/api';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import FavoriteButton from '@/components/FavoriteButton';
-
+import FavoriteButton, { SavedGame } from '@/components/FavoriteButton';
 
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -17,7 +16,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
   }
 
   // compact info for fav button
-  const compactGameData = {
+  const compactGameData: SavedGame = {
     id: game.id,
     name: game.name,
     background_image: game.background_image,
