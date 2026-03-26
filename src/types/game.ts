@@ -12,3 +12,11 @@ export interface GameResponse {
   previous: string | null;
   results: Game[];
 }
+
+export interface GameDetails extends Game {
+  description_raw: string;
+  website: string;
+  playtime: number;
+  publishers: { name: string }[];
+  platforms: { platform: { name: string } }[];
+}

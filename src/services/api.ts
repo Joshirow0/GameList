@@ -1,8 +1,9 @@
-import { GameResponse } from '@/types/game';
+import { GameResponse, GameDetails } from '@/types/game';
 
 const API_KEY = process.env.NEXT_PUBLIC_RAWG_API_KEY;
 const BASE_URL = 'https://api.rawg.io/api';
 
+// Fetch games with pagination and optional search query in main page
 export const getGames = async (page = 1, search = ''): Promise<GameResponse> => {
   
   // URL object to build the request
@@ -33,5 +34,27 @@ export const getGames = async (page = 1, search = ''): Promise<GameResponse> => 
   } catch (error) {
     console.error("Hubo un problema al contactar a la API:", error);
     throw error; 
+  }
+};
+
+// Fetch detailed game info for the details page
+export const getGameDetails = async (id: string): Promise<GameDetails> => {
+  const url = new URL(`${BASE_URL}/games/${id}`);
+  url.searchParams.append('key', API_KEY as string);
+
+  try {
+    const response = await fetch(url.toString(), {
+      next: { revalidate: 3600 } // next cache
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) throw new Error("Juego no encontrado");
+      throw new Error(`Error de RAWG: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error al obtener detalles del juego ${id}:`, error);
+    throw error;
   }
 };
