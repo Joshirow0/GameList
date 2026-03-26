@@ -1,5 +1,6 @@
 import Search from '@/components/Search';
 import GameCatalog from '@/components/GameCatalog';
+import Link from 'next/link';
 
 export default async function Home( { searchParams, }: { searchParams: Promise<{ q?: string; page?: string }> }) {
 
@@ -15,7 +16,15 @@ export default async function Home( { searchParams, }: { searchParams: Promise<{
           Catálogo de Videojuegos
         </h1>
 
-        <Search />
+        <div className="flex justify-between items-center mb-8">
+          <Search />
+          <Link 
+            href="/favorites" 
+            className="text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+          >
+            Mis Favoritos
+          </Link>
+        </div>
 
         <GameCatalog query={query} currentPage={currentPage} />
 
